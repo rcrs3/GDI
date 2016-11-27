@@ -1,17 +1,22 @@
 package test;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Scanner;
 
 import test.Connectivity;
 
 public class Program {
 	public static void main(String [] args){
-			String driverName = "oracle.jdbc.driver.OracleDriver";
-			String url = "jdbc:oracle:thin:@localhost:1521:xe";
-			String login = "system";
-			String password = "qwerty";
+			Scanner in = new Scanner(System.in);
+			String password = in.nextLine();
 			try {
-				Connectivity con = new Connectivity(driverName, url, login, password);
+				Connectivity con = new Connectivity(password);
+				String sql = in.nextLine();
+				ResultSet res = con.query(sql);
+				while(res.next()){
+					System.out.println(res.getString("nome"));
+				}
 			} catch (ClassNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -19,5 +24,7 @@ public class Program {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			
+			
 	}
 }

@@ -10,21 +10,23 @@ public class Connectivity {
 	private Connection connection;
 	private Statement statement;
 	
-	public Connectivity(String driverName, String url, String login, String senha) 
+	public Connectivity(String password) 
 			throws SQLException, ClassNotFoundException{
-		Class.forName(driverName);
-		this.connection = DriverManager.getConnection(url, login, senha);
+		Class.forName("oracle.jdbc.driver.OracleDriver");
+		this.connection = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", 
+													  "system", 
+													  password);
 		this.statement = this.connection.createStatement(
 				ResultSet.TYPE_SCROLL_SENSITIVE, 
 				ResultSet.CONCUR_UPDATABLE
 		);
 	}
 	
-	int insert(String sql) throws SQLException{
+	public int insert(String sql) throws SQLException{
 		return this.statement.executeUpdate(sql);
 	}
 	
-	ResultSet query(String sql) throws SQLException{
+	public ResultSet query(String sql) throws SQLException{
 		return this.statement.executeQuery(sql);
 	}
 }
